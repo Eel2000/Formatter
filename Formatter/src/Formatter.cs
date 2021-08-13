@@ -37,13 +37,20 @@ namespace Formatter.src
         /// <returns><see cref="string"/> file's extension</returns>
         public static string GetExtension(string filePath)
         {
-            byte[] fileToArray = File.ReadAllBytes(filePath);
+            try
+            {
+                byte[] fileToArray = File.ReadAllBytes(filePath);
 
-            _ = MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, fileToArray, fileToArray.Length, null, 0, out var intPtr, 0);
-            var mime = Marshal.PtrToStringUni(intPtr);
-            Marshal.FreeCoTaskMem(intPtr);
+                _ = MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, fileToArray, fileToArray.Length, null, 0, out var intPtr, 0);
+                var mime = Marshal.PtrToStringUni(intPtr);
+                Marshal.FreeCoTaskMem(intPtr);
 
-            return mime ?? null;
+                return mime ?? null;
+            }
+            catch (Exception e)
+            {
+                return $"{e.Message}\r\n{e.StackTrace}\n\r{e.Source}";
+            }
         }
 
         /// <summary>
