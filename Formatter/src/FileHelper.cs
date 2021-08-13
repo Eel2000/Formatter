@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Formatter.src
 {
-    public static class Formatter
+    public static class FileHelper
     {
         /// <summary>
         ///  Get file's extension from its bytes array.
