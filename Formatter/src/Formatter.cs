@@ -1,6 +1,7 @@
 ﻿using Formatter.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -9,27 +10,43 @@ namespace Formatter.src
     public static class Formatter
     {
         /// <summary>
-        ///  Get file's extension its from bytes array.
+        ///  Get file's extension from its bytes array.
         /// </summary>
-        /// <param name="image"><see cref="byte"/>The array containing image bytes converted</param>
-        /// <returns><see cref="string"/> extension</returns>
-        public static string Extension(byte[] image)
+        /// <param name="file"><see cref="byte"/>The array containing file bytes converted</param>
+        /// <returns><see cref="string"/> file's extension</returns>
+        public static string Extension(byte[] file)
         {
             try
             {
-                _ =MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, image, image.Length, null, 0, out var extension, 0);
+                _ =MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, file, file.Length, null, 0, out var intPtr, 0);
 
-                var mime = Marshal.PtrToStringUni(extension);
-                Marshal.FreeCoTaskMem(extension);
+                var mime = Marshal.PtrToStringUni(intPtr);
+                Marshal.FreeCoTaskMem(intPtr);
 
                 return mime ?? null;
 
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine(e.Message);
-                return null;
+                return $"{e.Message}\r\n{e.StackTrace}\n\r{e.Source}";
             }
+        }
+
+
+        /// <summary>
+        /// Get file's extension from its path
+        /// </summary>
+        /// <param name="filePath">The file's path</param>
+        /// <returns><see cref="string"/> file's extension</returns>
+        public static string Extension(string filePath)
+        {
+            byte[] fileToArray = File.ReadAllBytes(filePath);
+
+            _ = MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, fileToArray, fileToArray.Length, null, 0, out var intPtr, 0);
+            var mime = Marshal.PtrToStringUni(intPtr);
+            Marshal.FreeCoTaskMem(intPtr);
+
+            return mime ?? null;
         }
 
         /// <summary>
@@ -39,17 +56,41 @@ namespace Formatter.src
         /// <returns><see cref="string"/> fromatted file</returns>
         public static string Format(byte[] file)
         {
-            //get the file extension
-            var fileExtension = Extension(file);
-            var encodeToBase64 = Convert.ToBase64String(file);//convert bytes array to base64 format
-            var formattedFile = $"data:{fileExtension};base64,{encodeToBase64}";
+            try
+            {
+                //get the file extension
+                var fileExtension = Extension(file);
+                var encodeToBase64 = Convert.ToBase64String(file);//convert bytes array to base64 format
+                var formattedFile = $"data:{fileExtension};base64,{encodeToBase64}";
 
-            return formattedFile ?? null;
+                return formattedFile ?? null;
+            }
+            catch (Exception e)
+            {
+                return $"{e.Message}\r\n{e.StackTrace}\n\r{e.Source}";
+            }
         }
 
+        /// <summary>
+        /// Allows to format file from its given path for displaying purpose
+        /// </summary>
+        /// <param name="path">The path of the file</param>
+        /// <returns><see cref="string"/> formatted file</returns>
         public static string Format(string path)
         {
+            try
+            {
+                byte[] convertedFile = File.ReadAllBytes(path);//convert file by reading it into bytes array 
+                var encodeToBase64 = Convert.ToBase64String(convertedFile);// convert it to base64 string
+                var fileExtension = Extension(convertedFile);//get the extension
+                var formattedFile = $"data:{fileExtension};base64,{encodeToBase64}"; //format it
 
+                return formattedFile ?? null;
+            }
+            catch (Exception e)
+            {
+                return $"{e.Message}\r\n{e.StackTrace}\n\r{e.Source}";
+            }
         }
     }
 }
