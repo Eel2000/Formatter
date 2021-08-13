@@ -1,9 +1,7 @@
 ﻿using Formatter.Helpers;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Formatter.src
 {
@@ -14,11 +12,11 @@ namespace Formatter.src
         /// </summary>
         /// <param name="file"><see cref="byte"/>The array containing file bytes converted</param>
         /// <returns><see cref="string"/> file's extension</returns>
-        public static string Extension(byte[] file)
+        public static string GetExtension(byte[] file)
         {
             try
             {
-                _ =MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, file, file.Length, null, 0, out var intPtr, 0);
+                _ = MimeTypeHelper.FindMimeFromData(IntPtr.Zero, null, file, file.Length, null, 0, out var intPtr, 0);
 
                 var mime = Marshal.PtrToStringUni(intPtr);
                 Marshal.FreeCoTaskMem(intPtr);
@@ -32,13 +30,12 @@ namespace Formatter.src
             }
         }
 
-
         /// <summary>
         /// Get file's extension from its path
         /// </summary>
         /// <param name="filePath">The file's path</param>
         /// <returns><see cref="string"/> file's extension</returns>
-        public static string Extension(string filePath)
+        public static string GetExtension(string filePath)
         {
             byte[] fileToArray = File.ReadAllBytes(filePath);
 
@@ -59,7 +56,7 @@ namespace Formatter.src
             try
             {
                 //get the file extension
-                var fileExtension = Extension(file);
+                var fileExtension = GetExtension(file);
                 var encodeToBase64 = Convert.ToBase64String(file);//convert bytes array to base64 format
                 var formattedFile = $"data:{fileExtension};base64,{encodeToBase64}";
 
@@ -82,7 +79,7 @@ namespace Formatter.src
             {
                 byte[] convertedFile = File.ReadAllBytes(path);//convert file by reading it into bytes array 
                 var encodeToBase64 = Convert.ToBase64String(convertedFile);// convert it to base64 string
-                var fileExtension = Extension(convertedFile);//get the extension
+                var fileExtension = GetExtension(convertedFile);//get the extension
                 var formattedFile = $"data:{fileExtension};base64,{encodeToBase64}"; //format it
 
                 return formattedFile ?? null;
