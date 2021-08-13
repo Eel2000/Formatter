@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Eliezer Bwana</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/Eel2000/Formatter.git</RepositoryUrl>
+    <RepositoryType>Public</RepositoryType>
+    <NeutralLanguage />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>FileHelpeFormatter</PackageId>
   </PropertyGroup>
 
 </Project>
