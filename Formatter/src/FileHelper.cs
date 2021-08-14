@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 namespace Formatter.src
 {
     /// <summary>
-    /// Base entry for using fileformater helper
+    /// Base entry for using fileformater helper.
     /// </summary>
     public static class FileHelper
     {
