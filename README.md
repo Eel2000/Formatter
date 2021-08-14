@@ -9,11 +9,11 @@ see below a little example on how to use it.
 
 get file extension from bytes array:
 
- <code> var imgArray = File.ReadAllBytes(@"C:\Users\CTRL TECH\Pictures\Ambulance.jpg");</code>
+ <code> var imgArray = File.ReadAllBytes(@"..\Ambulance.jpg");</code>
  <code>var extension = FileHelper.GetExtension(imgArray);</code>
  
  format image to base64 format allows for displaying in the src attribute by path 
-   <code>var formattedFile = FileHelper.Format(@"C:\Users\CTRL TECH\Pictures\Ambulance.jpg");</code>
+   <code>var formattedFile = FileHelper.Format(@"..\Ambulance.jpg");</code>
    
    By byte array(image)
    <code> var result = FileHelper.Format(byte[] file);</code>
