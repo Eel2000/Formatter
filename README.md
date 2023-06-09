@@ -2,8 +2,7 @@
 util lib that allows to get files extension from byte array or from give path.
 
 Is a utility / library based on .Net which allows to easily recover the extension of a file from a byte array or from a path. it greatly facilitates the task for those who need to recover the extension of a file already converted into a byte array and saved in the database or even from the file path.
-it also allows to format an image in the base64 format displayable on an HTML page quite simply by passing the value returned by the library to the 'src' attribute of the 'img' tag and the image is displayed.
-and you can even save the format returned by the library in the database in string format
+it also allows to format an image in the base64 format.
 
 see below a little example on how to use it.
 
