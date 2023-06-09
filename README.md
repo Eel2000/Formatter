@@ -24,5 +24,5 @@ get file extension from bytes array:
    
    By byte array(image)
    ```C#
-   <code> var result = FileHelper.Format(byte[] file);
+   var result = FileHelper.Format(byte[] file);
    ```
